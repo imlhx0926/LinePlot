@@ -1,0 +1,224 @@
+/*@font-face{*/
+  /*font-family: 'McLarenRegular';*/
+  /*src: url('../fonts/McLarenRegular.ttf')*/
+/*}*/
+
+
+div{
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+.content{
+ float: left;
+ position:relative; 
+ width: 50px;		/* Original: 510px */
+ height:45px;
+ margin-left:4px;
+ margin-top: 10px;
+}
+/*.baseKey{*/
+ /*font-family: 'McLarenRegular';*/
+ /*font-weight:bold;*/
+ /*background: #C9EC8C;*/
+ /*z-index: 1000;*/
+ /*border-spacing: 7px;*/
+ /*height: 45px;*/
+ /*overflow:hidden*//*;*/
+ /*width: 310px;*/
+ /*position: absolute;*/
+ /*padding-bottom:4px;*/
+ /*margin:10px 10%;*/
+ /*border-radius:5px;*/
+ /*-webkit-user-select: none;  *//* Chrome all / Safari all */
+ /*-moz-user-select: none;     *//* Firefox all */
+ /*-ms-user-select: none;      *//* IE 10+ */
+
+  /* No support for these yet, use at own risk */
+  /*-o-user-select: none;*/
+  /*user-select: none; */
+  /*}*/
+  
+.small{
+  width:306px;
+ /* height: auto;
+  margin: 0 auto;
+  position:relative;
+   margin:10px 10%;*/
+ border-radius:5px;
+ -webkit-user-select: none;  /* Chrome all / Safari all */
+ -moz-user-select: none;     /* Firefox all */
+ -ms-user-select: none;      /* IE 10+ */
+ background: #C9EC8C;
+}
+
+div.input{
+    left: 70px;
+    top: -10px;
+}
+
+.input{
+	width: 295px;
+	height: 37px;
+	background: #ffffff;
+	position: relative;
+	margin: 6px 5px 5px 8px;
+  	border-radius:5px;
+  	line-height:37px;
+	/* float:right; */
+}
+.key.nChar{
+	/*background:#5f8900;*/
+}
+
+.input span{
+	letter-spacing:0.0825em;
+}
+
+ .key span.nChar{
+ 	font-family: 'HoeflerText-Italic';
+ }
+ 
+.key span{
+ display:table-cell;
+ vertical-align: middle;
+ font-family: 'McLarenRegular';
+ font-size:24px;
+ color:white;
+ font-weight:normal;
+ -webkit-touch-callout: none;
+}
+
+.key div{
+    display:table-cell;
+    vertical-align: middle;
+    font-family: 'McLarenRegular';
+    font-size:17px;
+    color:white;
+    font-weight:normal;
+    -webkit-touch-callout: none;
+}
+
+.enter_key
+{
+   border-radius:5px;
+   width: 96px;
+   height: 45px;
+   background:black;
+   float:left;
+   display:table;
+   margin:3px;
+   vertical-align: middle;
+   text-align: center;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+}
+
+.enter_key span
+{
+ display:table-cell;
+ vertical-align: middle;
+ font-family: 'McLarenRegular';
+ font-size:16px;
+ color:white;
+ font-weight:normal;
+ -webkit-touch-callout: none;
+}
+
+.key{
+     border-radius:5px;
+     width: 45px;
+     height: 45px;
+     background:green;
+     float:left;
+     display:table;
+     margin:3px;
+     vertical-align: middle;
+     text-align: center;
+     box-shadow: 3px 3px 5px rgba(0,128,0,0.5);
+ }
+
+
+.key .fenmu{
+    width: 100%;
+    height: 21px;
+    border-top: 2px solid white;
+}
+
+.key .fenzi{
+    width: 100%;
+    height: 21px;
+    border-bottom: none;
+}
+
+/*._keyBoardActive{*/
+  /*height: auto;*/
+/*}*/
+.delete{
+  /*width:50px;*/
+  height:34px;
+  float:right;
+}
+.mediumKey{
+	 width: 490px;
+}
+.bigKey{
+	/* Keypad area. (original: 600px) */
+	width: 295px;
+	/* width: 540px; */
+}
+.input._Big{
+	/* Input text field. (original: 580px) */
+	width: 205px;
+}
+.input._Medium{
+	width: 471px;
+	margin: 6px auto;
+}
+.small._Big{
+	/* Key-grid size. (original: 600px for 9 columns) */
+	width: 306px;
+}
+.small._Medium{
+	width: 485px;
+}
+.delete svg{
+  /*margin-left:10px;*/
+  margin-top:3px;
+}
+._keyActive{ opacity:0.3}
+
+.enter_key
+{
+    
+}
+
+.keyboardContainer
+{
+ border-radius:5px;
+ -webkit-user-select: none;  /* Chrome all / Safari all */
+ -moz-user-select: none;     /* Firefox all */
+ -ms-user-select: none;      /* IE 10+ */
+ background: white;
+ height:auto;
+ width:306px;
+ padding:1px;
+ top:50px;
+ position:absolute;
+ display:none;
+ z-index: 9999;
+ border: 3px solid black;
+ box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+
+}
+
+/*button{*/
+  /*position:absolute;*/
+  /*width:100px;*/
+  /*height:25px;*/
+  /*margin-top:52%;*/
+  /*margin-left:-40px;*/
+  /*z-index:1000;*/
+/*}*/
+/*sub{*/
+  /*vertical-align: super;*/
+  /*font-size: smaller;*/
+/*}*/
+i{font-family: 'HoeflerText-Italic';}

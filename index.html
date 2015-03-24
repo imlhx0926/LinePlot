@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<head>
+    <title>LinePlottingTool</title>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <link rel="stylesheet" href="css/LinePlot.css" type="text/css"/>
+    <script type="text/javascript" language="javascript" src="lib/jquery2.03.js"></script>
+    <script type="text/javascript" language="javascript" src="lib/jquery-ui.js"></script>
+    <script type="text/javascript" language="javascript" src="lib/jquery.ui.touch-punch.js"></script>
+    <script type="text/javascript" language="javascript" src="lib/vendor-nojquery-min.js"></script>
+
+    <script type="text/javascript" language="javascript" src="javascript/line.js"></script>
+    <script type="text/javascript" language="javascript" src="javascript/graph.js"></script>
+    <script type="text/javascript" language="javascript" src="javascript/parabola.js"></script>
+
+    <script type="text/javascript" language="javascript" src="javascript/LinePlot.js"></script>
+    <script type="text/javascript" language="javascript" src="javascript/math.js"></script>
+
+    <script type="text/javascript" language="javascript" src="ikeypad/javascripts/ikeypad.js"></script>
+    <link rel="stylesheet" href="ikeypad/stylesheets/ikeypad.css" type="text/css"/>
+
+    <script>
+        function BlockMove(event) {
+            //Tell Safari not to move the window.
+            if(event.target.tagName!="INPUT"&&event.target.tagName!="TD")
+                event.preventDefault();
+        }
+    </script>
+</head>
+<body ontouchmove="BlockMove(event)">
+
+<div class="appWrap">
+    <div id='canvasDiv'>
+    </div>
+
+    <div id="graphTableDiv">
+        <table id="graphTable" border=1>
+            <thead>
+            <tr>
+                <th class="headerXY" placeholder="x-axis" contenteditable="true" style="color: grey">x-axis</th>
+                <th class="headerXY" placeholder="y-axis" contenteditable="true" style="color: grey">y-axis</th>
+            </tr>
+            <tr><th>x</th><th>y</th></tr>
+            </thead>
+        </table>
+        <button id="plotGraph" type="button">CONNECT</button>
+        <button id="plusGraph" type="button" onclick='$("#graphTable>tbody").append("<tr><td></td><td></td></tr>");'>+ Row</button>
+        <button id="minusGraph" type="button" onclick='$(".editTd").parent().remove();lineplot.updateGraphTable();'>&#8211 Row</button>
+        <div class="hideTableDiv" id="hideGraphTable" type="button" onclick="$(this).parent().hide()"></div>
+    </div>
+    <div id="graphKeypad">
+        <div id="graphKeypadHandle" style="width: 255px; height: 30px; color: #000000; font-family: helvetica-bold; font-size: 24px">Keypad for Table</div>
+        <div class="key"><span>&#8211</span></div><div class="key"><span>7</span></div><div class="key"><span>8</span></div><div class="key"><span>9</span></div>
+        <div class="key nChar">
+            <table class="fenshu" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr align="center"><td><div class="fenzi">a</div></td></tr>
+                    <tr align="center"><td><div class="fenmu">b</div></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="key"><span>.</span></div><div class="key"><span>4</span></div><div class="key"><span>5</span></div><div class="key"><span>6</span></div>
+        <div class="key">
+            <span style="display:none"><<=</span>
+            <svg class="delete" width="30" height="24" viewBox="0 0 1024 1024"><g><path fill="white" d="M921.6 153.6h-489.165c-22.528 0-54.835 12.134-71.782 26.982l-347.955 304.435c-16.947 14.848-16.947 39.117 0 53.965l347.955 304.486c16.947 14.797 49.254 26.931 71.782 26.931h489.165c56.371 0 102.4-46.080 102.4-102.4v-512c0-56.32-46.029-102.4-102.4-102.4zM777.779 716.8l-130.918-130.918-130.816 130.918-73.933-73.882 130.867-130.918-130.867-130.867 73.933-73.933 130.867 130.867 130.867-130.867 73.882 73.933-130.816 130.867 130.867 130.867-73.933 73.933z"></path></g></svg>
+        </div>
+        <div class="key"><span>0</span></div><div class="key"><span>1</span></div><div class="key"><span>2</span></div><div class="key"><span>3</span></div><div class="key" style="background-color: black; box-shadow: 3px 3px 5px rgba(0,0,0,0.5);"><span style="font-size: 16px">Next</span></div>
+        <div class="hideTableDiv" type="button" onclick="$(this).parent().hide()"></div>
+    </div>
+
+    <div id='controlDiv'>
+        <div class="controlHeader">
+            <div class='addItem'>f(x)</div>
+            <div class='addTable'></div>
+            <div class='addGraph'></div>
+            <div class="coordBtn"></div>
+            <div class='slideClose'></div>
+        </div>
+    </div>
+    <div class="zoomTools">
+        <div id="zoomInBtn"></div>
+        <div id="refreshBtn"></div>
+        <div id="zoomOutBtn"></div>
+        <div id="scaleXYOpen"></div>
+        <table border=1>
+            <tr><td>y/x scaling factor</td><td id="scaleXY" contenteditable="true"></td></tr>
+            <!--<tr><td>body style</td><td id="bodyTop" contenteditable="true"></td></tr>-->
+        </table>
+    </div>
+
+
+    <div id="labelTable">
+        <table border=1>
+        </table>
+        <!--<div class="hideTableDiv" type="button" onclick="$(this).parent().hide()"></div>-->
+    </div>
+    <!--<div class="utilities">-->
+        <div id="msgBox">Tap on the coordinate to define points, tap [Graph] again to connect</div>
+    <!--</div>-->
+</div>
+
+
+</body>
+<script>
+//    $('#canvasDiv').css("width", $(window).width());
+//    $('#canvasDiv').css("height", $(window).height());
+    $('#canvasDiv').html(
+        '<canvas id="draftCanvas" width='+ ($("#canvasDiv").width()) + ' height=' + ($("#canvasDiv").height()) + '></canvas>' +
+        '<canvas id="finalCanvas" width='+ ($("#canvasDiv").width()) + ' height=' + ($("#canvasDiv").height()) + '></canvas>' +
+        '<canvas id="baselineCanvas" width='+ ($("#canvasDiv").width()) + ' height=' + ($("#canvasDiv").height()) + '></canvas>'
+    );
+    $('#canvasDiv').css("background-color", "#ffffff");
+    $(".headerXY").on("focus blur", function(){
+        if ($(this).text()==$(this).attr("placeholder")){
+            $(this).html("");
+            $(this).css("color","black");
+        }
+        else if ($(this).text()==""){
+            $(this).html($(this).attr("placeholder"));
+            $(this).css("color","grey");
+        }
+        else $(this).css("color","black");
+    });
+
+    var lineplot, changesf, smooth, savedState=new Array();
+
+    var eventBroker = _({}).extend(require('chaplin/lib/event_broker'));
+
+    function saveGT(){
+        var currentState = new Array();
+        objects.forEach(function(obj){
+            var config = {type:"config",centerX:centerX, centerY:centerY, scaleWorld:200, scaleXY:scaleXY, headerX:$("#graphTable thead th:nth(0)").text(), headerY:$("#graphTable thead th:nth(1)").text()};
+            currentState.push(config);
+            if (obj.type=="ray"){
+                currentState.push({
+                    type: "ray",
+                    enabled: true,
+                    label:obj.label,
+                    formula: obj.formula
+                });
+            }
+            else if(obj.type=="graph"){
+                currentState.push({
+                    type: "graph",
+                    enabled: true,
+                    label:obj.label,
+                    array: obj.array
+                });
+            }
+        });
+        var message = {
+            type: 'state',
+            data: JSON.stringify(currentState)
+        };
+        console.log(message);
+        eventBroker.publishEvent('#save', message);
+    };
+
+    function loadGT(){
+        eventBroker.publishEvent('#fetch', {type:'state'}, function(state){
+            if(state) {
+                savedState = JSON.parse(state);
+            }
+            else {
+                savedState = [
+//                    {type:"config",centerX:45, centerY:$("#canvasDiv").height()-45, scaleWorld:200, scaleXY:0.2, headerX:"Time(s)", headerY:"Distance(m)"},
+//                    {type: "ray", enabled: true, label:"Hesjedal", formula:"y=15x"},
+//                    {type: "graph", enabled: true, label:"", array:[]},
+//                    {type: "graph", enabled: true, label:"", array:[]}
+                ]
+            }
+        });
+    };
+
+    if(typeof eventBroker != 'undefined'){
+        eventBroker.subscribeEvent('#doSave', function(){
+            saveGT();
+        });
+    }
+
+$(function(){
+    loadGT();
+    if (savedState.length==0)
+        savedState = [
+//            {type:"config",centerX:45, centerY:$("#canvasDiv").height()-45, scaleWorld:200, scaleXY:0.2, headerX:"Time(s)", headerY:"Distance(m)"},
+//            {type: "ray", enabled: true, label:"Hesjedal", formula:"y=15x"},
+//            {type: "graph", enabled: true, label:"", array:[]},
+//            {type: "graph", enabled: true, label:"", array:[]}
+        ];
+    if (savedState.length==0) $("#labelTable").hide();
+    lineplot = new LinePlot();
+    lineplot.init(savedState);
+    changesf = function(){
+        smooth = document.getElementById("smoothfactor").value;
+        lineplot.refreshFinalCanvas();
+    }
+    $("#graphKeypad").draggable({
+        handle: $("#graphKeypadHandle")
+    });
+    $("#graphTableDiv").draggable();
+    $(".headerXY").on("mousedown touchstart", function(ev){
+        $("#graphTableDiv").draggable("disable");
+    });
+    $(".headerXY").on("blur", function(ev){
+        $("#graphTableDiv").draggable("enable");
+    });
+
+////    $("#bodyTop").html($("body").offset().top);
+//    $("#bodyTop").on("focus", function(ev){
+////        $("#bodyTop").html($("body").offset().top);
+//        $("#bodyTop").html($("body").attr("style"));
+//
+//    });
+//    $("#bodyTop").on("keyup", function(ev){
+//        $("body").attr("style",$(this).text());
+//    });
+
+});
+
+
+</script>
+</html>
